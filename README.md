@@ -276,4 +276,99 @@ yarn add @babel/plugin-transform-runtime -D
 ```
 yarn add @babel/runtime
 ```
-注意这里没有-D
+注意这里没有-D。
+接下来让我们实验一下ES6语法，在src下新建Rect_class.js文件，内容为：
+```javascript
+class Rect {
+    constructor(x, y) {
+      this.width = x;
+      this.height = y;
+    }
+    area() {
+      return this.width * this.height;
+    }
+    perimeter(){
+        return (this.width + this.height)*2
+    }
+
+}
+export default Rect;
+  ```
+  逻辑很简单，就是用ES6新增的class方法实现了一个矩形的类，然后再index.js中引入：
+  ```javascript
+  import Rect from './Rect_class'
+
+    const rectObject = new Rect(3,4)
+    console.log('周长： ',rectObject.perimeter())
+    console.log('面积： ',rectObject.area())
+```
+执行`npm start`我们可以在控制台打印出：
+```
+周长：  14
+面积：  12
+```
+下面再运行build，看一下打包后的结果，核心部分变成了：
+```javascript
+var Rect =
+/*#__PURE__*/
+function () {
+  function Rect(x, y) {
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, Rect);
+
+    this.width = x;
+    this.height = y;
+  }
+
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Rect, [{
+    key: "area",
+    value: function area() {
+      return this.width * this.height;
+    }
+  }, {
+    key: "perimeter",
+    value: function perimeter() {
+      return (this.width + this.height) * 2;
+    }
+  }]);
+
+  return Rect;
+}();
+```
+可见我们的ES6代码已经成功转成ES6。
+## 8. css模块化
+一直以来前端的模块化一直限定在JS上，而另一位重要成员css则由于天然的弱编程能力，难以实现模块化，但是webpack强大的扩展能力让css模块化成为了可能，需要的仅仅只是为css文件添加相应的loader
+### 安装css-loader
+```
+yarn add css-loader -D
+```
+css-loader作用是让我们的css文件能够用`import`的方式实现模块化传递。
+### 安装style-loader
+```
+yarn add style-loader -D
+```
+`style-loader`能够让`css-loader`载入的css文件以`<style></style>`的形式插入到`<header></header>`中。
+配置module.rules
+```javascript
+{
+    //匹配css文件
+    test:/\.css$/,
+    use:[
+        //生成一个内容为最终解析完的css代码的style标签，放到head标签里
+        'style-loader',
+        //解析css模块引入
+        'css-loader',
+    ]
+}
+```
+接下来我们src下新建index.css
+```css
+body{
+    background:red;
+}
+```
+在index.js中加入
+```javascript
+import './index.css'
+```
+启动后我们打开浏览器控制台，发现css文件中的内容已经通过`<style></style>`插入到`<header></header>`中
+![screenshot]("assets/style-loader-screenshot.PNG")

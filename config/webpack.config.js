@@ -30,6 +30,13 @@ module.exports = {
         //是否启用服务器压缩
         compress:true
     },
+    /**
+     * 此选项控制是否生成，以及如何生成 source map
+     * -----------------------------------------------------
+     * @param {string}      'source-map'      原始源代码
+     * @param {string}      ''                打包后的代码
+     */
+    devtool:'source-map',
     //模块，用于对不同文件进行匹配和处理
     module:{
         rules: [
@@ -42,6 +49,15 @@ module.exports = {
                 include:path.resolve(__dirname,'../src'),
                 //设置排除文件
                 exclude:path.resolve(__dirname,'../node_modules')
+            },{
+                //匹配css文件
+                test:/\.css$/,
+                use:[
+                    //生成一个内容为最终解析完的css代码的style标签，放到head标签里
+                    'style-loader',
+                    //解析css模块引入
+                    'css-loader',
+                ]
             },{
                 //匹配less文件
                 test:/\.less$/,
