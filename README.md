@@ -88,7 +88,7 @@ build命令修改为
 
 ## 5. 使用HtmlWebpackPlugin
 我们在dist下新建一个index.html文件，内容为
-```javascript
+```js
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,7 +111,7 @@ build命令修改为
 yarn add html-webpack-plugin -D
 ```
 在public文件夹下新建index.html作为模板文件，内容为：
-```javascript
+```js
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -126,7 +126,7 @@ yarn add html-webpack-plugin -D
 </html>
 ```
 放入favicon.ico文件，webpack.config.js加入html-webpack-plugin插件
-```javascript
+```js
 const path = require("path")
 //自动生成html文件并注入script标签引用
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -166,7 +166,7 @@ module.exports = {
 }
 ```
 打包后的dist/index.html为
-```javascript
+```js
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -189,7 +189,7 @@ module.exports = {
 yarn add webpack-dev-server -D
 ```
 在webpack.config.js中加入
-```javascript
+```js
 // webpack开发服务器
     devServer:{
         //设置开发服务起的目标地址
@@ -220,7 +220,7 @@ ES6语法的推出是前端领域一件振奋人心的大事件，极大的提�
 yarn add babel-loader @babel/core -D
 ```
 在module.rules新增一条：
-```javascript
+```js
 {
     //匹配js或jsx类型文件
     test:/\.js$/,
@@ -257,7 +257,7 @@ yarn add @babel/preset-env -D
 yarn add @babel/polyfill -D
 ```
 entry项修改为
-```javascript
+```js
 // 入口文件地址
 entry:{
     //为项目添加垫片
@@ -278,7 +278,7 @@ yarn add @babel/runtime
 ```
 注意这里没有-D。
 接下来让我们实验一下ES6语法，在src下新建Rect_class.js文件，内容为：
-```javascript
+```js
 class Rect {
     constructor(x, y) {
       this.width = x;
@@ -308,7 +308,7 @@ export default Rect;
 面积：  12
 ```
 下面再运行build，看一下打包后的结果，核心部分变成了：
-```javascript
+```js
 var Rect =
 /*#__PURE__*/
 function () {
@@ -348,7 +348,7 @@ yarn add style-loader -D
 ```
 `style-loader`能够让`css-loader`载入的css文件以`<style></style>`的形式插入到`<header></header>`中。
 配置module.rules
-```javascript
+```js
 {
     //匹配css文件
     test:/\.css$/,
@@ -367,8 +367,8 @@ body{
 }
 ```
 在index.js中加入
-```javascript
+```js
 import './index.css'
 ```
 启动后我们打开浏览器控制台，发现css文件中的内容已经通过`<style></style>`插入到`<header></header>`中
-![screenshot]("assets/style-loader-screenshot.PNG")
+![screenshot]("https://github.com/wfatec/webpack-dev-env/blob/master/assets/style-loader-screenshot.PNG?raw=true")
