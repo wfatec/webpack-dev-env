@@ -57,6 +57,8 @@ module.exports = {
                     'style-loader',
                     //解析css模块引入
                     'css-loader',
+                    //可以对css进行样式补全等操作
+                    'postcss-loader',
                 ]
             },{
                 //匹配less文件

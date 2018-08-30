@@ -15,7 +15,7 @@ yarn init -y
 yarn add webpack -D
 ```
 在package.json中看到
-```javascript
+```json
 {
   …
   "devDependencies": {
@@ -29,7 +29,7 @@ yarn add webpack -D
 yarn add webpack-cli -D
 ```
 然后再package.json中添加
-```javascript
+```json
 "scripts": {
   "build": "webpack"
 }
@@ -50,11 +50,11 @@ The 'mode' option has not been set, webpack will fallback to 'production' for th
 You can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/concepts/mode/
 ```
 大意为'mode'未设置，webpack默认会使用'production'模式，即生产模式。现在我们将build命令修改为
-```javascript
+```
 "build": "webpack --mode=production"
 ```
 且新建src文件夹，并在文件夹内创建'index.js',内容为
-```javascript
+```js
 console.log('hello webpack!')
 ```
 此时执行'npm run build'，我们发现打包成功，切打包文件自动被放到'dist/main.js'，由于使用了生产模式，所以webpack会开启一系列额外的优化，包括minification, scope hoisting, tree-shaking等。
@@ -62,7 +62,7 @@ console.log('hello webpack!')
 你当然可以直接通过命令行来运行webpack，并完全使用默认配置，但在大多数场景我们仍需要进行一些个性化配置，这时将这些设置直接卸载命令行中就显得不合时宜了，这时我们可以通过编写webpack.config.js，来规范化我们的webpack配置，这也是目前最主流的做法。
 
 在根目录下创建config文件夹，之后新建webpack.dev.js和webpack.prod.js分别作为开发环境和生产环境下的配置文件。我们主要以开发环境的配置为主，生产环境的配置其实大同小异。将webpack.dev.js修改为
-```javascript
+```js
 const path = require("path")
 module.exports = {
     mode:'development',
@@ -81,14 +81,14 @@ module.exports = {
 }
 ```
 build命令修改为
-```javascript
+```
 "build": "webpack --config=config/webpack.config.js"
 ```
 我们可以看到dist文件下出现了我们打包后的main.js文件。
 
 ## 5. 使用HtmlWebpackPlugin
 我们在dist下新建一个index.html文件，内容为
-```js
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,7 +111,7 @@ build命令修改为
 yarn add html-webpack-plugin -D
 ```
 在public文件夹下新建index.html作为模板文件，内容为：
-```js
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -166,7 +166,7 @@ module.exports = {
 }
 ```
 打包后的dist/index.html为
-```js
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -203,7 +203,7 @@ yarn add webpack-dev-server -D
     }
 ```
 在package.json的script下增加
-```javascript
+```
 "start": "webpack-dev-server --config=config/webpack.config.js",
 ```
 执行
@@ -239,10 +239,10 @@ yarn add babel-loader @babel/core -D
 yarn add @babel/preset-env -D
 ```
 ### 建立`.babelrc`文件
-```json
+```js
 {
     "presets": [
-        //es6运行环境
+        // es6运行环境
          "@babel/preset-env"
     ]
 }
@@ -293,10 +293,10 @@ class Rect {
 
 }
 export default Rect;
-  ```
-  逻辑很简单，就是用ES6新增的class方法实现了一个矩形的类，然后再index.js中引入：
-  ```javascript
-  import Rect from './Rect_class'
+```
+逻辑很简单，就是用ES6新增的class方法实现了一个矩形的类，然后再index.js中引入：
+```js
+    import Rect from './Rect_class'
 
     const rectObject = new Rect(3,4)
     console.log('周长： ',rectObject.perimeter())
@@ -370,5 +370,32 @@ body{
 ```js
 import './index.css'
 ```
-启动后我们打开浏览器控制台，发现css文件中的内容已经通过`<style></style>`插入到`<header></header>`中
-![screenshot]("https://github.com/wfatec/webpack-dev-env/blob/master/assets/style-loader-screenshot.PNG?raw=true")
+启动后我们打开浏览器控制台，发现css文件中的内容已经通过`<style></style>`插入到`<header></header>`中。
+### 安装postcss-loader
+[PostCSS](https://www.ibm.com/developerworks/cn/web/1604-postcss-css/index.html)本身是一个功能比较单一的工具。它提供了一种方式用 JavaScript 代码来处理 CSS。它负责把 CSS 代码解析成抽象语法树结构（Abstract Syntax Tree，AST），再交由插件来进行处理。通过PostCSS能够极大的提高CSS的开发效率。
+
+webpack通过`postcss-loader`来对`.css`文件进行处理，并添加在`style-loader`和`css-loader`之后。首先进行安装：
+```
+yarn add -D postcss-loader
+```
+postcss有一些非常好用的插件：
+1. Autoprefixer
+其作用是为 CSS 中的属性添加浏览器特定的前缀。为了兼容不同浏览器的不同版本，在编写 CSS 样式规则声明时通常需要添加额外的带前缀的属性。这是一项繁琐而无趣的工作。Autoprefixer 可以自动的完成这项工作。
+2. cssnext
+cssnext 插件允许开发人员在当前的项目中使用 CSS 将来版本中可能会加入的新特性。cssnext 负责把这些新特性转译成当前浏览器中可以使用的语法。从实现角度来说，cssnext 是一系列与 CSS 将来版本相关的 PostCSS 插件的组合。比如，***cssnext 中已经包含了对 Autoprefixer 的使用***，因此使用了 cssnext 就不再需要使用 Autoprefixer。
+
+我们一步到位直接安装postcss-cssnext
+```
+yarn add -D postcss-cssnext
+```
+在根目录下新建`postcss.config.js`作为postcss的配置文件，postcss-loader会首先优先使用webpack配置文件中的loader选项，然后再检查`postcss.config.js`，将postcss的配置文件单独分离出来有助于构建意图更为清晰(.babelrc也是一样)。`postcss.config.js`内容为：
+```js
+module.exports = {
+    plugins: {
+        //兼容css4语法
+        'postcss-cssnext': {}
+    }
+}
+```
+
+## 9. style文件抽离
