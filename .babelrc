@@ -3,7 +3,7 @@
         //es6运行环境
         "@babel/preset-env",
         //react运行环境
-        //"@babel/preset-react"
+        "@babel/preset-react"
     ],
     "plugins":[
         //运行时编译es6，入口文件引用作为辅助和内建，
