@@ -88,6 +88,44 @@ module.exports = {
                         'less-loader'
                     ]
                 })
+            },{
+                //匹配png jpg gif类型的文件,忽略大小写
+                test: /\.(png|jpg|gif)$/i,
+                use: [
+                    {
+                        /**
+                         * 可以处理文件对象，并将处理后的文件变成文件内容的MD5 hash，后缀名为源文件的后缀名。
+                         *          类型          名称           默认值                               描述
+                         * @param {Number}       limit       'undefined'                  文件小于limit时，以URL方式引入
+                         * @param {string}      mimetype       extname          是否把其他后缀名的图片文件，统一转为同一种格式的base64编码   
+                         * @param {string}      fallback     file-loader                文件大于limit时，调用file-loader方式处理
+                         */
+                        loader: 'url-loader',
+                        options: {
+                            mimetype: 'image/png',
+                            limit: '8024'
+                            /**
+                             * name表示输出的文件名规则，如果不添加这个参数，输出的就是默认值：文件哈希。
+                             * 加上[path]表示输出文件的相对路径与当前文件相对路径相同，
+                             * 加上[name].[ext]则表示输出文件的名字和扩展名与当前相同。
+                             * 加上[path]这个参数后，打包后文件中引用文件的路径也会加上这个相对路径。
+                             */
+                            //name: '[path][name].[ext]'
+                            /**
+                             *  outputPath表示输出文件路径前缀。图片经过url-loader打包都会打包到指定的输出文件夹下。
+                             * 但是我们可以指定图片在输出文件夹下的路径。比如outputPath=img/，
+                             * 图片被打包时，就会在输出文件夹下新建（如果没有）一个名为img的文件夹，
+                             * 把图片放到里面。
+                             */
+                            //outputPath:'img/'
+                            /**
+                             *  publicPath表示打包文件中引用文件的路径前缀，如果你的图片存放在CDN上，
+                             * 那么你上线时可以加上这个参数，值为CDN地址，这样就可以让项目上线后的资源引用路径指向CDN了。
+                             */
+                            //publicPath:'output/'
+                        }
+                    }
+                ]
             }
         ]
     },

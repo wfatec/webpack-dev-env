@@ -1,9 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Saber from './img/saber.jpg';
 const App = () => {
   return (
     <div>
-      <p>React here!</p>
+      <img src={Saber} alt='亚瑟王' />
     </div>
   );
 };
