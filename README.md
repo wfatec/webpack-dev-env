@@ -583,8 +583,8 @@ yarn add -D url-loader
 2. 配置mudule.rules
 ```js
 {
-    //匹配png jpg gif类型的文件
-    test: /\.(png|jpg|gif)$/,
+    //匹配png jpg gif类型的文件,忽略大小写
+    test: /\.(png|jpg|gif)$/i,
     use: [
         {
             /**
@@ -597,21 +597,22 @@ yarn add -D url-loader
             loader: 'url-loader',
             options: {
                 mimetype: 'image/png',
-                limit: '1024'
+                limit: '8024',
                 /**
                  * name表示输出的文件名规则，如果不添加这个参数，输出的就是默认值：文件哈希。
                  * 加上[path]表示输出文件的相对路径与当前文件相对路径相同，
                  * 加上[name].[ext]则表示输出文件的名字和扩展名与当前相同。
+                 * 加上[hash]表示加上一个hash码，用于唯一标识打包文件
                  * 加上[path]这个参数后，打包后文件中引用文件的路径也会加上这个相对路径。
                  */
-                //name: '[path][name].[ext]'
+                name: '[name].[hash].[ext]',
                 /**
                  *  outputPath表示输出文件路径前缀。图片经过url-loader打包都会打包到指定的输出文件夹下。
                  * 但是我们可以指定图片在输出文件夹下的路径。比如outputPath=img/，
                  * 图片被打包时，就会在输出文件夹下新建（如果没有）一个名为img的文件夹，
                  * 把图片放到里面。
                  */
-                //outputPath:'img/'
+                outputPath:'img/'
                 /**
                  *  publicPath表示打包文件中引用文件的路径前缀，如果你的图片存放在CDN上，
                  * 那么你上线时可以加上这个参数，值为CDN地址，这样就可以让项目上线后的资源引用路径指向CDN了。
@@ -637,3 +638,8 @@ const App = () => {
 export default App;
 ReactDOM.render(<App />, document.getElementById("root"));
 ```
+此时运行`npm run build`，发现控制台报错，大意是缺少一些模块，然后在node_modules/url-loader和`node_modules`下查找，发现并没有`file-loader`的依赖，因此估计是缺少`file-loader`，那么尝试一下安装`file-loader`:
+```
+yarn add -D file-loader
+```
+之后运行`npm run build`，一切正常，我们的图片也被正常打包到`dist/img`下，命名为`saber.41ba48fec44b8185322755f64d4f3af7.jpg`
