@@ -1,5 +1,4 @@
 import Rect from './Rect_class'
-import App from './App'
 import './index.css'
 
 const rectObject = new Rect(3,4)

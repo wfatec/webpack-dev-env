@@ -102,5 +102,4 @@ module.exports = {
         //是否启用服务器压缩
         compress:true
     }
-
 }

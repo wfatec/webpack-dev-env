@@ -52,14 +52,24 @@ module.exports = {
             },{
                 //匹配css文件
                 test:/\.css$/,
-                use:[
-                    //生成一个内容为最终解析完的css代码的style标签，放到head标签里
-                    'style-loader',
-                    //解析css模块引入
-                    'css-loader',
-                    //可以对css进行样式补全等操作
-                    'postcss-loader',
-                ]
+                use:ExtractTextPlugin.extract({
+                    /**
+                     * 一般情况下，由于ExtractTextPlugin已经将css文件单独打包并引入，不再需要style-loader,
+                     * 但是在以下三种情况下会执行fallback：
+                     * 1. css不被抽离/ExtractTextPlugin失效
+                     * 2. HMR
+                     * 3. 异步chuncks/bundles
+                     * 
+                     * style-loader：生成一个内容为最终解析完的css代码的style标签，放到head标签里
+                     */
+                    fallback:"style-loader",
+                    use:[
+                        //解析css模块引入
+                        'css-loader',
+                        //可以对css进行样式补全等操作
+                        'postcss-loader',
+                    ]
+                })
             },{
                 //匹配less文件
                 test:/\.less$/,
@@ -90,14 +100,33 @@ module.exports = {
             filename:"index.html",
             //生成文件依赖的模板，支持加载器(如handlebars、ejs、undersore、html等)
             template: './public/index.html',
-            // script标签插入位置
-            // true 默认值，script标签位于html文件的 body 底部
-            // body script标签位于html文件的 body 底部
-            // head script标签位于html文件的 head中
-            // false 不插入生成的js文件，这个几乎不会用到的
+            /**
+             * script标签插入位置
+             *  true 默认值，script标签位于html文件的 body 底部
+             *  body script标签位于html文件的 body 底部
+             *  head script标签位于html文件的 head中
+             *  false 不插入生成的js文件，这个几乎不会用到的
+             */
             inject:true,
             //将给定的图标加入到输出的html文件
             favicon:'./public/favicon.ico'
+        }),
+        //将css单独打包
+        new ExtractTextPlugin({
+            /**
+             * 生成文件的文件名。可能包含 [name], [id] and [contenthash]
+             * [contenthash]在webpack4.3以上需要改成[hash],原因是与在webpack4存在命名冲突
+             */
+            filename: 'css/[name].css',
+            /**
+             * filename:  (getPath) => {
+             *      return getPath('css/[name].css').replace('css/js', 'css');
+             *  },
+             *  从所有额外的 chunk提取,当使用 CommonsChunkPlugin 
+             *  并且在公共 chunk 中有提取的 chunk（来自ExtractTextPlugin.extract）时，
+             *  allChunks **必须设置为 true
+             */
+            allChunks:true
         })
     ],
 }
