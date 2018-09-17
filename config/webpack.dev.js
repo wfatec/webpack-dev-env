@@ -10,14 +10,14 @@ module.exports = {
         //为项目添加垫片
         polyfill:'babel-polyfill',
         //将src/main.js设置为入口文件，main可任意设置，这里设为文件名相同
-        main:'./src/main.js'
+        main:'./src/main.js',
     },
     // 出口文件配置
     output:{
         // 最终打包路径
         path:path.resolve(__dirname,'../dist'),
         // 打包文件的名称,name为入口文件的名称
-        filename:'[name].js'
+        filename:'[name].js',
     },
     /**
      * 此选项控制是否生成，以及如何生成 source map

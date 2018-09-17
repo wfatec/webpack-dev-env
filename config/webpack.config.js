@@ -17,7 +17,9 @@ module.exports = {
         // 最终打包路径
         path:path.resolve(__dirname,'../dist'),
         // 打包文件的名称,name为入口文件的名称
-        filename:'[name].js'
+        filename:'[name].js',    
+        // 为项目中的所有资源指定一个基础路径
+        publicPath: './'
     },
     // webpack开发服务器
     devServer:{
