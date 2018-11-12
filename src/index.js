@@ -1,6 +1,7 @@
 import Rect from './Rect_class'
-import App from './App'
-import './index.css'
+// import App from './App'
+import Hooks from './Hooks'
+// import './index.css'
 
 const rectObject = new Rect(3,4)
 console.log('周长： ',rectObject.perimeter())

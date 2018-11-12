@@ -3,6 +3,7 @@ const path = require("path")
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 //将css抽离成单独的文件
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports = {
     mode:'development',
     // 入口文件地址
@@ -18,8 +19,8 @@ module.exports = {
         path:path.resolve(__dirname,'../dist'),
         // 打包文件的名称,name为入口文件的名称
         filename:'[name].js',    
-        // 为项目中的所有资源指定一个基础路径
-        publicPath: './'
+        // 为项目中的所有资源指定一个基础路径,当设置了 publicPath 属性后，会导致 webpack-dev-server出现无法热更新的情况，因此，在开发环境下可以先注释掉该属性，在真正发布时才使用。
+        // publicPath: './'
     },
     // webpack开发服务器
     devServer:{
@@ -30,7 +31,7 @@ module.exports = {
         //服务器端口
         port:8088,
         //是否启用服务器压缩
-        compress:true
+        compress:true,
     },
     /**
      * 此选项控制是否生成，以及如何生成 source map
@@ -168,6 +169,6 @@ module.exports = {
              *  allChunks **必须设置为 true
              */
             allChunks:true
-        })
+        }),
     ],
 }
