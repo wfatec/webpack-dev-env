@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
 import ReactDOM from "react-dom";
+import { appMachine } from './appMachine';
+import { Login } from './Login';
+import { Dashboard } from './Dashboard';
 
-class App extends React.Component {
+export const Auth = React.createContext({
+  authState: 'login',
+  logout: () => {},
+  user: {},
+});
+
+
+
+export class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

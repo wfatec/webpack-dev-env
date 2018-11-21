@@ -1,8 +1,6 @@
-import Rect from './Rect_class'
-// import App from './App'
-import Hooks from './Hooks'
-// import './index.css'
+import React from 'react';
+import ReactDOM from "react-dom";
+// import App from './react-automata'
+import App from './hooksWithXstate'
 
-const rectObject = new Rect(3,4)
-console.log('周长： ',rectObject.perimeter())
-console.log('面积： ',rectObject.area())
+ReactDOM.render(<App />, document.getElementById("root"));
