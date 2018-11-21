@@ -44,14 +44,10 @@ export default ( props ) => {
         }
         break;
       case 'unsetUser':
-        return {
-          user: {},
-        };
+        setUser({});
       case 'error':
         if (event.error) {
-          return {
-            error: event.error,
-          };
+          setError(event.error);
         }
         break;
       default:
