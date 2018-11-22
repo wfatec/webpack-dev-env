@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
+    "easy-peasy": "^1.6.1",
     "react": "^16.7.0-alpha.0",
     "react-automata": "^4.0.4",
     "react-dom": "^16.7.0-alpha.0",
