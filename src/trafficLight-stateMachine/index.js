@@ -6,9 +6,9 @@ import "./styles.css";
 export default function App() {
   const [state, setState] = useState("green");
 
-//   (function(){
+//   ~function(){
 //       console.log('init');
-//   }())
+//   }()
 
   const machine = {
     green: {
